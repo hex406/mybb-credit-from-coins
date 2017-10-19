@@ -9,6 +9,9 @@
     @copyright  : MyBB License. All rights reserved. 
 */
 
+//xpub6CVZsEzKHV98bPpD4ZLUsmQGN6fCuP3n13ZsFz9Zs4sN5rZE2T8PF9qDpxrUDUNfDtCLEEbftiLe9tyAXvZ7k6S92NJYeCdqHG6Y5uVLc32
+
+
 define("IN_MYBB", 1);
 require_once "./global.php";
 //error_reporting(E_ALL);
@@ -23,14 +26,16 @@ if ($_POST['amount'] != '')
 {
 
 	$secret = $mybb->settings['credit_from_coins_secret'];
+	$my_xpub = 'xpub6CVZsEzKHV98bPpD4ZLUsmQGN6fCuP3n13ZsFz9Zs4sN5rZE2T8PF9qDpxrUDUNfDtCLEEbftiLe9tyAXvZ7k6S92NJYeCdqHG6Y5uVLc32';
+	$my_api_key = 'f7f2d469-4792-4a4a-9df7-85d2ec498147';
 
 	$my_address = $mybb->settings['credit_from_coins_address'];
 
 	$my_callback_url = $mybb->settings['bburl'].'/dobuy2.php?uid='.$_POST['uid'].'&amount='.$_POST['amount'].'&secret='.$secret;
 
-	$root_url = 'https://blockchain.info/api/receive';
+	$root_url = 'https://api.blockchain.info/v2/receive';
 
-	$parameters = 'method=create&address=' . $my_address .'&anonymous=false&callback='. urlencode($my_callback_url);
+	$parameters = 'xpub=' .$my_xpub. '&callback=' .urlencode($my_callback_url). '&key=' .$my_api_key;
 
 	$response = file_get_contents($root_url . '?' . $parameters);
 
