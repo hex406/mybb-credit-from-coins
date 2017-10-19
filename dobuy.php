@@ -9,7 +9,6 @@
     @copyright  : MyBB License. All rights reserved. 
 */
 
-//xpub6CVZsEzKHV98bPpD4ZLUsmQGN6fCuP3n13ZsFz9Zs4sN5rZE2T8PF9qDpxrUDUNfDtCLEEbftiLe9tyAXvZ7k6S92NJYeCdqHG6Y5uVLc32
 
 
 define("IN_MYBB", 1);
@@ -26,10 +25,10 @@ if ($_POST['amount'] != '')
 {
 
 	$secret = $mybb->settings['credit_from_coins_secret'];
-	$my_xpub = 'xpub6CVZsEzKHV98bPpD4ZLUsmQGN6fCuP3n13ZsFz9Zs4sN5rZE2T8PF9qDpxrUDUNfDtCLEEbftiLe9tyAXvZ7k6S92NJYeCdqHG6Y5uVLc32';
-	$my_api_key = 'f7f2d469-4792-4a4a-9df7-85d2ec498147';
+	$my_xpub = 'YOUR XPUB KEY';
+    $my_api_key = 'YOUR API KEY';
 
-	$my_address = $mybb->settings['credit_from_coins_address'];
+	//$my_address = $mybb->settings['credit_from_coins_address'];
 
 	$my_callback_url = $mybb->settings['bburl'].'/dobuy2.php?uid='.$_POST['uid'].'&amount='.$_POST['amount'].'&secret='.$secret;
 
@@ -46,6 +45,8 @@ if ($_POST['amount'] != '')
 	} else {
 
 		$object = json_decode($response);
+		
+    //echo 'Send Payment To : ' . $object->address;
 
 		$page="
 <html>
@@ -58,7 +59,7 @@ if ($_POST['amount'] != '')
 	<table border=\"0\" cellspacing=\"{$theme[borderwidth]}\" cellpadding=\"{$theme[tablespace]}\" class=\"tborder\" style=\"clear: both;\">
 
 <tr><td class='thead' colspan='2'><strong>".$lang->sprintf($lang->creditfromcoins_long_title, $name)."</strong></td></tr>
-<tr><td class='trow1' colspan='2'><center><br />To complete your purchase send <b>".$_POST['amount']." BTC</b> to : <br /><b>".$object->input_address."</b><br />or use the QR code below with your Bitcoin wallet app.<br /><br /><img src=\"https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=bitcoin:".$object->input_address."?amount=".$_POST['amount']."&label=".$mybb->settings[bbname].".&choe=UTF-8&chld=H|0\"><br /><br /></center></td></tr>
+<tr><td class='trow1' colspan='2'><center><br />To complete your purchase send exactly <b>".$_POST['amount']." BTC</b> to : <br /><b>" .$object->address."</b><br />or use the QR code below with your Bitcoin wallet app.<br /><br /><img src=\"https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=bitcoin:".$object->address."?amount=".$_POST['amount']."&label=".$mybb->settings[bbname].".&choe=UTF-8&chld=H|0\"><br /><br /></center></td></tr>
 <tr><td class='trow1'><center>Please allow 1-2 hours after sending for your purchase to appear in your account.</center></td></tr>
 </table>
 <br>
@@ -68,4 +69,5 @@ if ($_POST['amount'] != '')
 
 		output_page($page);
 	}
+	
 }
